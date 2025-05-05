@@ -7,9 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">YoGo</string>
     <string name="menu_newworkout">new workout</string>
     <string name="menu_searchbytags">search by tags</string>
     <string name="menu_foryou">for you</string>

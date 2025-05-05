@@ -12,21 +12,39 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.yogoapp.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_newworkout"
+        android:name="com.example.yogoapp.ui.newworkout.NewWorkoutFragment"
+        android:label="@string/menu_newworkout"
+        tools:layout="@layout/fragment_newworkout" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.yogoapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_searchbytags"
+        android:name="com.example.yogoapp.ui.searchbytags.SearchByTagsFragment"
+        android:label="@string/menu_searchbytags"
+        tools:layout="@layout/fragment_searchbytags" />
+
+    <fragment
+        android:id="@+id/nav_foryou"
+        android:name="com.example.yogoapp.ui.foryou.ForYouFragment"
+        android:label="@string/menu_foryou"
+        tools:layout="@layout/fragment_foryou" />
+
+    <fragment
+        android:id="@+id/nav_myhistory"
+        android:name="com.example.yogoapp.ui.myhistory.MyHistoryFragment"
+        android:label="@string/menu_myhistory"
+        tools:layout="@layout/fragment_myhistory" />
 
     <fragment
         android:id="@+id/nav_aboutapp"
         android:name="com.example.yogoapp.ui.aboutapp.AboutAppFragment"
         android:label="@string/menu_aboutapp"
         tools:layout="@layout/fragment_aboutapp" />
+
+    <fragment
+        android:id="@+id/nav_privacypolicy"
+        android:name="com.example.yogoapp.ui.privacypolicy.PrivacyPolicyFragment"
+        android:label="@string/menu_privacypolicy"
+        tools:layout="@layout/fragment_privacypolicy" />
 
 </navigation>
