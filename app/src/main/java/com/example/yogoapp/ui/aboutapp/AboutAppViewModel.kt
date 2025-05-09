@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 class AboutAppViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is about app Fragment"
+        value = "YogoApp is your personal yoga and wellness companion.\n\n" +
+                "Discover guided workouts, track your progress, and find sessions tailored just for you — anytime, anywhere.\n\n" +
+                "Breathe, move, and grow with YogoApp. "
     }
     val text: LiveData<String> = _text
 }
