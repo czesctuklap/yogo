@@ -16,6 +16,56 @@
         <item
             android:id="@+id/nav_myhistory"
             android:title="@string/menu_myhistory" />
+
+
+
+
+        <!-- separators -->
+        <item
+            android:id="@+id/separator"
+            android:title=""
+            android:enabled="false"
+            android:icon="@android:color/transparent" />
+
+        <item
+            android:id="@+id/separator2"
+            android:title=""
+            android:enabled="false"
+            android:icon="@android:color/transparent" />
+
+        <item
+            android:id="@+id/separator3"
+            android:title=""
+            android:enabled="false"
+            android:icon="@android:color/transparent" />
+
+        <item
+            android:id="@+id/separator4"
+            android:title=""
+            android:enabled="false"
+            android:icon="@android:color/transparent" />
+
+        <item
+            android:id="@+id/separator5"
+            android:title=""
+            android:enabled="false"
+            android:icon="@android:color/transparent" />
+
+        <item
+            android:id="@+id/separator6"
+            android:title=""
+            android:enabled="false"
+            android:icon="@android:color/transparent" />
+
+        <item
+            android:id="@+id/separator7"
+            android:title=""
+            android:enabled="false"
+            android:icon="@android:color/transparent" />
+
+
+
+
         <item
             android:id="@+id/nav_aboutapp"
             android:title="@string/menu_aboutapp" />
