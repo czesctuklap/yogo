@@ -36,10 +36,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -52,5 +52,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("androidx.activity:activity-ktx:1.10.1")
+    //implementation("androidx.activity:activity-ktx:1.10.1")
+    implementation(libs.youtube.player.core)
+    implementation(libs.youtube.player.custom.ui)
 }

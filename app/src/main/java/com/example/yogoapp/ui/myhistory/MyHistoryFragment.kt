@@ -25,10 +25,10 @@ class MyHistoryFragment : Fragment() {
         _binding = FragmentMyhistoryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textMyhistory
-        myHistoryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+//        val textView: TextView = binding.textMyhistory
+//        myHistoryViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
         return root
     }
 

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.foryou.ForYouFragment">
+    tools:context=".ui.formresult.FormResultFragment">
 
     <ImageView
         android:id="@+id/backgroundImage"
@@ -19,10 +19,9 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/recommendationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="today's recommendation for you"
+        android:text="today's workout for you"
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,22 +29,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="200dp"/>
 
-    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-        android:id="@+id/youtubePlayerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/recommendationText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/button_next"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="90dp"
-        app:layout_constraintDimensionRatio="16:9"
-        app:enableAutomaticInitialization="false" />
-
     <Button
-        android:id="@+id/button_next"
+        android:id="@+id/button_next_fr"
         style="@style/CustomButton"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
@@ -53,6 +38,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="50dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

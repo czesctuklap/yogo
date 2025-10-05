@@ -15,7 +15,19 @@
         android:id="@+id/nav_newworkout"
         android:name="com.example.yogoapp.ui.newworkout.NewWorkoutFragment"
         android:label="@string/menu_newworkout"
-        tools:layout="@layout/fragment_newworkout" />
+        tools:layout="@layout/fragment_newworkout">
+        <action
+            android:id="@+id/action_newWorkout_to_formResult"
+            app:destination="@id/nav_formresult"
+            app:popUpTo="@id/nav_newworkout"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_formresult"
+        android:name="com.example.yogoapp.ui.formresult.FormResultFragment"
+        android:label="FormResult"
+        tools:layout="@layout/fragment_formresult" />
 
     <fragment
         android:id="@+id/nav_searchbytags"

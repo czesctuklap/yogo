@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 
 class MyHistoryViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is my history Fragment"
-    }
-    val text: LiveData<String> = _text
+//    private val _text = MutableLiveData<String>().apply {
+//        value = "This is my history Fragment"
+//    }
+//    val text: LiveData<String> = _text
 }
