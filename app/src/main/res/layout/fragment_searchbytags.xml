@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/backgroundImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/basescreen"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,18 +18,309 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/text_searchbytags"
-        android:layout_width="match_parent"
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:paddingHorizontal="8dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/buttonsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_vinyasa"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#vinyasa"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_yin"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#yin"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_hatha"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#hatha"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_power"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#power"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_morning"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#morning"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_afternoon"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#afternoon"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_evening"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#evening"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_before_sleep"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#before_sleep"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_relaxation"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#relaxation"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_energizing"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#energizing"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_flexibility"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#flexibility"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_strength"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#strength"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_balance"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#balance"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_stress_relief"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#stress_relief"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_tired"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#tired"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_sad"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#sad"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_motivated"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#motivated"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_peaceful"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#peaceful"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_period_pain"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#period_pain"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_pregnancy"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#pregnancy"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_lower_back"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#lower_back"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_hips"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#hips"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_upper_back"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#upper_back"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_core"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#core"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_full_body"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#full_body"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_restorative"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#restorative"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_beginner"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#beginner"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_intermediate"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#intermediate"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/button_advanced"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#advanced"
+                android:layout_marginEnd="8dp"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/videosScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/horizontalScrollView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/videosContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="90dp">
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtubePlayerView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:enableAutomaticInitialization="false" />
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtubePlayerView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:enableAutomaticInitialization="false" />
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtubePlayerView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:enableAutomaticInitialization="false" />
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtubePlayerView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:enableAutomaticInitialization="false" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
