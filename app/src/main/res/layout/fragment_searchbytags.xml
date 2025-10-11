@@ -41,8 +41,8 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#vinyasa"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                android:text="#vinyasa" />
 
             <Button
                 android:id="@+id/button_yin"
@@ -141,46 +141,6 @@
                 android:layout_marginEnd="8dp"/>
 
             <Button
-                android:id="@+id/button_stress_relief"
-                style="@style/CustomButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#stress_relief"
-                android:layout_marginEnd="8dp"/>
-
-            <Button
-                android:id="@+id/button_tired"
-                style="@style/CustomButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#tired"
-                android:layout_marginEnd="8dp"/>
-
-            <Button
-                android:id="@+id/button_sad"
-                style="@style/CustomButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#sad"
-                android:layout_marginEnd="8dp"/>
-
-            <Button
-                android:id="@+id/button_motivated"
-                style="@style/CustomButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#motivated"
-                android:layout_marginEnd="8dp"/>
-
-            <Button
-                android:id="@+id/button_peaceful"
-                style="@style/CustomButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#peaceful"
-                android:layout_marginEnd="8dp"/>
-
-            <Button
                 android:id="@+id/button_period_pain"
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
@@ -197,14 +157,6 @@
                 android:layout_marginEnd="8dp"/>
 
             <Button
-                android:id="@+id/button_lower_back"
-                style="@style/CustomButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="#lower_back"
-                android:layout_marginEnd="8dp"/>
-
-            <Button
                 android:id="@+id/button_hips"
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
@@ -213,11 +165,11 @@
                 android:layout_marginEnd="8dp"/>
 
             <Button
-                android:id="@+id/button_upper_back"
+                android:id="@+id/button_back"
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#upper_back"
+                android:text="#back"
                 android:layout_marginEnd="8dp"/>
 
             <Button

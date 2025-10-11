@@ -4,19 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.yogoapp.R
-import androidx.navigation.fragment.findNavController
 import com.example.yogoapp.databinding.FragmentNewworkoutBinding
-import com.example.yogoapp.ui.formresult.FormResultFragment
 
 class NewWorkoutFragment : Fragment(R.layout.fragment_newworkout) {
 
     private var _binding: FragmentNewworkoutBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: NewWorkoutViewModel by viewModels()
+
+    private fun RadioGroup.checkedTagOrNull(): String? {
+        val v = findViewById<View>(checkedRadioButtonId)
+        return v?.tag?.toString()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -24,11 +29,26 @@ class NewWorkoutFragment : Fragment(R.layout.fragment_newworkout) {
         _binding = FragmentNewworkoutBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.result.observe(viewLifecycleOwner) { payload ->
+            val bundle = Bundle().apply { putString("result", payload) }
+            view.findNavController().navigate(R.id.action_newWorkout_to_formResult, bundle)
+        }
+
         binding.buttonSubmit.setOnClickListener {
-            it.findNavController().navigate(R.id.action_newWorkout_to_formResult)
+            val state = FormState(
+                fitness   = binding.rgFitness.checkedTagOrNull(),
+                health    = binding.rgHealth.checkedTagOrNull(),
+                mainGoal  = binding.rgMainGoal.checkedTagOrNull(),
+                duration  = binding.rgDuration.checkedTagOrNull(),
+                energy    = binding.rgEnergy.checkedTagOrNull(),
+                props     = binding.rgProps.checkedTagOrNull(),
+                yoga      = binding.rgYoga.checkedTagOrNull()
+            )
+            viewModel.submit(state)
         }
     }
 

@@ -9,24 +9,455 @@
 
     <ImageView
         android:id="@+id/backgroundImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:src="@drawable/basescreen"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/button_submit"
-        style="@style/CustomButton"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:text="submit"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/formCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="#D9D9D9"
+        app:shapeAppearanceOverlay="@style/RoundedCard24"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="50dp"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/formScroll"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:fillViewport="true"
+                android:clipToPadding="false"
+                android:layout_marginHorizontal="20dp"
+                android:scrollbars="none"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/button_submit">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:paddingBottom="80dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:textSize="18sp"
+                        android:textColor="#434343"
+                        android:text="1. What is your general fitness level?"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgFitness"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/rbBeginner"
+                            android:tag="beginner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="beginner"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton
+                            android:id="@+id/rbIntermediate"
+                            android:tag="intermediate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="intermediate"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton
+                            android:id="@+id/rbAdvanced"
+                            android:tag="advanced"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="advanced"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="#434343"
+                        android:layout_marginTop="20dp"
+                        android:text="2. What are your current health conditions?"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgHealth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton android:id="@+id/rbNone"
+                            android:tag="all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="none"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbBackNeck"
+                            android:tag="back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="back or neck pain"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbStiffness"
+                            android:tag="full_body"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="stiffness"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbPeriod"
+                            android:tag="period_pain"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="period"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbPregnancy"
+                            android:tag="pregnancy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="pregnancy"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="#434343"
+                        android:layout_marginTop="20dp"
+                        android:text="3. What is your main goal with today's yoga?"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgMainGoal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton android:id="@+id/rbStress"
+                            android:tag="relaxation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="stress relief and relaxation"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbFlexibility"
+                            android:tag="flexibility"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="flexibility and mobility"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbStrength"
+                            android:tag="strength"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="strength and toning"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbBalance"
+                            android:tag="balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="balance improvement"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbEnergy"
+                            android:tag="energizing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="getting more energy"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbIDK"
+                            android:tag="all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="i don't know"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20dp"
+                        android:textColor="#434343"
+                        android:text="4. How long do you want to exercise?"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton android:id="@+id/rb20minus"
+                            android:tag="20minus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="up to 20 minutes"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rb20_45"
+                            android:tag="2045"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20–45 minutes"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rb45plus"
+                            android:tag="45plus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="above 45 minutes"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20dp"
+                        android:textColor="#434343"
+                        android:text="5. And which energy level are you on right now?"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgEnergy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton android:id="@+id/rbLow"
+                            android:tag="low"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="low"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbMedium"
+                            android:tag="medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="medium"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbHigh"
+                            android:tag="high"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="high"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbNS"
+                            android:tag="all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="i'm not sure"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20dp"
+                        android:textColor="#434343"
+                        android:text="6. Do you have props available?"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgProps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton android:id="@+id/rbNoProps"
+                            android:tag="none"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="no"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbBlocks"
+                            android:tag="blocks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="yes, blocks"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbBelt"
+                            android:tag="belt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="yes, belt"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbAll"
+                            android:tag="all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="yes, blocks and belt"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20dp"
+                        android:textColor="#434343"
+                        android:text="7. Do you have preferred yoga type?"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgYoga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioButton android:id="@+id/rbNoType"
+                            android:tag="all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="no"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbHatha"
+                            android:tag="hatha"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="yes, hatha"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbVinyasa"
+                            android:tag="vinyasa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="yes, vinyasa"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbYin"
+                            android:tag="yin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="yes, yin"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+
+                        <RadioButton android:id="@+id/rbPower"
+                            android:tag="power"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="yes, power"
+                            android:textSize="18sp"
+                            android:textColor="#434343"
+                            android:buttonTint="#434343"/>
+                    </RadioGroup>
+
+                </LinearLayout>
+            </ScrollView>
+
+            <Button
+                android:id="@+id/button_submit"
+                style="@style/CustomButton"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:text="submit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
