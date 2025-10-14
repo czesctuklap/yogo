@@ -1,9 +1,8 @@
 package com.example.yogoapp.ui.newworkout
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+
 import java.util.Calendar
 
 data class FormState(
@@ -16,15 +15,47 @@ data class FormState(
     val yoga: String?
 )
 
+enum class Question { FITNESS, HEALTH, MAIN_GOAL, DURATION, ENERGY, PROPS, YOGA }
+
 class NewWorkoutViewModel : ViewModel() {
+
+    private val fitness   = MutableLiveData<String?>()
+    private val health    = MutableLiveData<String?>()
+    private val mainGoal  = MutableLiveData<String?>()
+    private val duration  = MutableLiveData<String?>()
+    private val energy    = MutableLiveData<String?>()
+    private val props     = MutableLiveData<String?>()
+    private val yoga      = MutableLiveData<String?>()
 
     private val _result = MutableLiveData<String>()
     val result: LiveData<String> = _result
 
-    // 4:00–12:00 -> morning
-    // 12:01–17:00 -> afternoon
-    // 17:01–20:30 -> evening
-    // 20:31–3:59 -> before_sleep
+    val isFormValid: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        fun recompute() {
+            value = listOf(
+                fitness.value, health.value, mainGoal.value,
+                duration.value, energy.value, props.value, yoga.value
+            ).all { !it.isNullOrBlank() }
+        }
+        listOf(fitness, health, mainGoal, duration, energy, props, yoga).forEach { src ->
+            addSource(src) { recompute() }
+        }
+        value = false
+    }
+
+    fun onOptionSelected(question: Question, tagValue: String?) {
+        when (question) {
+            Question.FITNESS    -> fitness.value = tagValue
+            Question.HEALTH     -> health.value = tagValue
+            Question.MAIN_GOAL  -> mainGoal.value = tagValue
+            Question.DURATION   -> duration.value = tagValue
+            Question.ENERGY     -> energy.value = tagValue
+            Question.PROPS      -> props.value = tagValue
+            Question.YOGA       -> yoga.value = tagValue
+        }
+    }
+
+    // 4:00–12:00 -> morning; 12:01–17:00 -> afternoon; 17:01–20:30 -> evening; 20:31–3:59 -> before_sleep
     private fun currentTimeBucket(): String {
         val cal = Calendar.getInstance()
         val h = cal.get(Calendar.HOUR_OF_DAY)
@@ -32,9 +63,9 @@ class NewWorkoutViewModel : ViewModel() {
 
         fun afterOrEqual(hh: Int, mm: Int) = (h > hh) || (h == hh && m >= mm)
         fun beforeOrEqual(hh: Int, mm: Int) = (h < hh) || (h == hh && m <= mm)
-        fun strictlyBetween(startH: Int, startM: Int, endH: Int, endM: Int): Boolean {
-            val afterStart = (h > startH) || (h == startH && m > startM)
-            val beforeEnd  = (h < endH)   || (h == endH   && m <= endM)
+        fun strictlyBetween(sh: Int, sm: Int, eh: Int, em: Int): Boolean {
+            val afterStart = (h > sh) || (h == sh && m > sm)
+            val beforeEnd  = (h < eh) || (h == eh && m <= em)
             return afterStart && beforeEnd
         }
 
@@ -44,22 +75,24 @@ class NewWorkoutViewModel : ViewModel() {
         return "before_sleep"
     }
 
-    fun submit(state: FormState) {
-        val fitness   = state.fitness   ?: "all"
-        val health    = state.health    ?: "all"
-        val mainGoal  = state.mainGoal  ?: "all"
-        val duration  = state.duration  ?: "all"
-        val energy    = state.energy    ?: "all"
-        val props     = state.props     ?: "all"
-        val yoga      = state.yoga      ?: "all"
+    fun submitIfValid(): String? {
+        if (isFormValid.value != true) return null
 
         val timeOfDay = currentTimeBucket()
 
         val payload = listOf(
-            energy, props, health, mainGoal, duration, fitness, yoga, timeOfDay
+            energy.value.orEmpty(),
+            props.value.orEmpty(),
+            health.value.orEmpty(),
+            mainGoal.value.orEmpty(),
+            duration.value.orEmpty(),
+            fitness.value.orEmpty(),
+            yoga.value.orEmpty(),
+            timeOfDay
         ).joinToString(";")
 
         Log.d("NewWorkoutResult", "Generated string: $payload")
         _result.value = payload
+        return payload
     }
 }
