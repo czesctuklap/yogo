@@ -58,7 +58,7 @@ class FormResultFragment : Fragment() {
     private fun initPlayerAndLoad(videoId: String) {
         binding.youtubePlayerViewFR.enableAutomaticInitialization = false
 
-        val options = IFramePlayerOptions.Builder()
+        val options = IFramePlayerOptions.Builder(requireContext())
             .controls(1)
             .autoplay(1)
             .build()
