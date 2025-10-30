@@ -35,22 +35,18 @@ class FormResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // lifecycle pod widok
         viewLifecycleOwner.lifecycle.addObserver(binding.youtubePlayerViewFR)
 
-        // odbierz payload z bundla (przyszedł z NewWorkoutFragment)
         val payload = arguments?.getString("result").orEmpty()
         if (payload.isNotBlank()) {
             viewModel.setUserInput(payload)
         }
 
-        // obserwuj aktualne videoId
         viewModel.videoId.observe(viewLifecycleOwner) { id ->
             if (id.isNullOrBlank()) return@observe
             if (!playerInitialized) initPlayerAndLoad(id) else youTubePlayerRef?.cueVideo(id, 0f)
         }
 
-        // next -> kolejny dopasowany url z listy
         binding.buttonNextFr.setOnClickListener { viewModel.next() }
     }
 
@@ -59,13 +55,13 @@ class FormResultFragment : Fragment() {
 
         val options = IFramePlayerOptions.Builder(requireContext())
             .controls(1)
-            .autoplay(0) // ważne: brak autoplay
+            .autoplay(0)
             .build()
 
         binding.youtubePlayerViewFR.initialize(object : AbstractYouTubePlayerListener() {
             override fun onReady(player: YouTubePlayer) {
                 youTubePlayerRef = player
-                player.cueVideo(videoId, 0f) // miniatura + ▶️, bez autoplay
+                player.cueVideo(videoId, 0f)
             }
         }, options)
 

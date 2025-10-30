@@ -13,15 +13,12 @@ import kotlin.math.round
 
 class FormResultViewModel(app: Application) : AndroidViewModel(app) {
 
-    // Publiczny, aktualnie wybrany videoId do pokazania
     private val _videoId = MutableLiveData<String>()
     val videoId: LiveData<String> = _videoId
 
-    // Cała lista dopasowanych url-i (ID YouTube) + indeks
     private val _urls = MutableLiveData<List<String>>(emptyList())
     private val _index = MutableLiveData(0)
 
-    // Ustaw payload z ekranu formularza -> policz dopasowania i ustaw pierwszy wynik
     fun setUserInput(userInput: String) {
         viewModelScope.launch {
             val urls: List<String> = withContext(Dispatchers.IO) {
@@ -30,7 +27,6 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                 val db = PrepopulatedDb.openReadOnly(ctx)
 
                 try {
-                    // ----- stałe (odpowiednik stałych w Pythonie) -----
                     val CATEGORY_WEIGHTS = mapOf(
                         "time_of_day" to 1.0,
                         "intensity"   to 2.5,
@@ -62,7 +58,6 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                         }
                     }
 
-                    // ----- parse user input -----
                     val userTags = userInput.split(";")
                         .map { it.trim().lowercase() }
                         .filter { it.isNotEmpty() }
@@ -73,7 +68,6 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                     val userIntensity = INTENSITY_HIERARCHY.keys.firstOrNull { it in userTags }
                     val durRange      = getDurationRange(userTags)
 
-                    // ----- tag lookup z bazy: name -> category -----
                     val tagLookup = buildMap<String, String> {
                         db.rawQuery("SELECT name, category FROM tag", null).use { c ->
                             val nameIdx = c.getColumnIndexOrThrow("name")
@@ -84,13 +78,12 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                         }
                     }
 
-                    // ----- zbuduj mapę practice -> dane + tagi -----
                     data class P(
                         val id: Long,
                         val title: String,
                         val url: String,
                         val duration: Int,
-                        val tags: MutableList<Pair<String,String>> = mutableListOf() // (name, category)
+                        val tags: MutableList<Pair<String,String>> = mutableListOf()
                     )
 
                     val practices = LinkedHashMap<Long, P>()
@@ -122,11 +115,9 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                         }
                     }
 
-                    // ----- scoring jak w Pythonie -----
                     val scored = mutableListOf<Pair<P, Double>>()
 
                     for (p in practices.values) {
-                        // filtr długości
                         val dur = p.duration
                         if (dur !in durRange) continue
 
@@ -136,7 +127,6 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                         for ((tagName, category) in p.tags) {
                             when (category) {
                                 "time_of_day" -> {
-                                    // jeśli użytkownik nie podał time_of_day – nie penalizujemy ani nie nagradzamy
                                     if (userTags.contains(tagName)) {
                                         score += CATEGORY_WEIGHTS["time_of_day"] ?: 1.0
                                     }
@@ -176,7 +166,6 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                                 }
 
                                 else -> {
-                                    // inne kategorie: jeśli tag z praktyki jest w zestawie usera – dodaj wagę kategorii (albo 1.0)
                                     if (tagName in userTags) {
                                         score += CATEGORY_WEIGHTS[category] ?: 1.0
                                     }
@@ -187,9 +176,8 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                         if (valid) scored += p to score
                     }
 
-                    // sort malejąco po score i zwróć TYLKO url-e
                     scored.sortByDescending { it.second }
-                    scored.take(50).map { it.first.url } // możesz ograniczyć np. do 50
+                    scored.take(50).map { it.first.url }
                 }
 
                 catch (e: Exception) {
@@ -197,7 +185,7 @@ class FormResultViewModel(app: Application) : AndroidViewModel(app) {
                     emptyList()
                 }
 
-            } // withContext
+            }
 
             _urls.value = urls
             _index.value = 0

@@ -4,18 +4,16 @@ import sys
 
 DB_FILE = "yogo_database_git"
 
-# wagi kategorii tagów
 CATEGORY_WEIGHTS = {
-    "time_of_day": 1.0,
-    "intensity": 2.75,
-    "level": 4.0,
-    "focus_area": 3.0,
-    "type": 13.5,
-    "goal": 3.5,
-    "props": 2.0
+    "time_of_day": 2.5,
+    "intensity": 5.0,
+    "level": 5.0,
+    "focus_area": 10.0,
+    "type": 10.0,
+    "goal": 10.0,
+    "props": 5.0
 }
 
-# relacje pomiędzy poziomami trudności
 LEVEL_WEIGHTED = {
     "beginner": {"beginner": 1.0},
     "intermediate": {"intermediate": 1.0, "beginner": 0.5},
@@ -29,14 +27,13 @@ INTENSITY_HIERARCHY = {
 }
 
 def get_duration_range(user_tags):
-    """określa przedział długości na podstawie tagów."""
     if "20minus" in user_tags:
         return (0, 23)
     elif "2045" in user_tags:
         return (20, 45)
     elif "45plus" in user_tags:
         return (45, 999)
-    return (0, 999)  # brak ograniczenia
+    return (0, 999)
 
 def find_best_matches(user_answers_str, top_n=10):
     conn = sqlite3.connect(DB_FILE)
@@ -97,7 +94,6 @@ def find_best_matches(user_answers_str, top_n=10):
                         valid = False
                         break
                     else:
-                        # dodaje wagę zależną od poziomu
                         score += CATEGORY_WEIGHTS["level"] * allowed_levels[tag_name]
 
             # props
@@ -128,7 +124,6 @@ def find_best_matches(user_answers_str, top_n=10):
                     if tag_name == user_intensity:
                         score += CATEGORY_WEIGHTS["intensity"]
 
-            # inne kategorie
             elif tag_name in user_tags:
                 score += CATEGORY_WEIGHTS.get(category, 1.0)
 
@@ -159,7 +154,6 @@ if __name__ == "__main__":
         #print(f"{i}. {r['title']} ({r['duration_minutes']} min) - wynik: {r['score']}")
         #print(f"   {r['youtube_url']}\n")
 
-    # zwracanie wyniku (do użycia w aplikacji)
     try:
         if len(sys.argv) > 1 and sys.argv[1].strip():
             user_input = sys.argv[1]
@@ -169,7 +163,6 @@ if __name__ == "__main__":
 
         results = find_best_matches(user_input)
 
-        # zwracamy wynik jako JSON
         print(json.dumps(results, ensure_ascii=False))
 
     except Exception as e:
