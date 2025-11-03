@@ -27,42 +27,45 @@ class ForYouFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentForyouBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[ForYouViewModel::class.java]
+
+        val factory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        viewModel = ViewModelProvider(this, factory)[ForYouViewModel::class.java]
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // lifecycle pod WI­DOK (ważne, żeby nie wyciekało po zniszczeniu widoku)
         viewLifecycleOwner.lifecycle.addObserver(binding.youtubePlayerView)
 
-        // Obserwuj videoId z ViewModelu
         viewModel.videoId.observe(viewLifecycleOwner) { id ->
             if (id.isNullOrBlank()) return@observe
 
             if (!playerInitialized) {
                 initPlayerAndLoad(id)
             } else {
-                // player już jest – załaduj nowe wideo
                 youTubePlayerRef?.loadVideo(id, 0f)
             }
         }
+
+        binding.buttonNext.setOnClickListener { viewModel.loadRecommendation() }
+
     }
 
     private fun initPlayerAndLoad(videoId: String) {
         binding.youtubePlayerView.enableAutomaticInitialization = false
 
-        val options = IFramePlayerOptions.Builder()
+        val options = IFramePlayerOptions.Builder(requireContext())
             .controls(1)
-            .autoplay(1)
+            .autoplay(0)
             .build()
 
         binding.youtubePlayerView.initialize(object : AbstractYouTubePlayerListener() {
             override fun onReady(player: YouTubePlayer) {
                 youTubePlayerRef = player
-                player.mute()                // autoplay na mobile działa, pewniej na mute
-                player.loadVideo(videoId, 0f)
+                player.mute()
+                player.cueVideo(videoId, 0f)
             }
         }, options)
 
