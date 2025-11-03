@@ -6,13 +6,13 @@ DB_FILE = "yogo_database"
 
 # wagi kategorii tagów
 CATEGORY_WEIGHTS = {
-    "time_of_day": 1,
-    "intensity": 2.5,
-    "level": 4.0,
-    "focus_area": 2.5,
-    "type": 2.0,
-    "goal": 1.75,
-    "props": 4.0
+    "time_of_day": 2.5,
+    "intensity": 5.0,
+    "level": 5.0,
+    "focus_area": 10.0,
+    "type": 10.0,
+    "goal": 10.0,
+    "props": 5.0
 }
 
 # relacje pomiędzy poziomami trudności
@@ -33,7 +33,7 @@ def get_duration_range(user_tags):
     if "20minus" in user_tags:
         return (0, 23)
     elif "2045" in user_tags:
-        return (20, 45)
+        return (20, 46)
     elif "45plus" in user_tags:
         return (45, 999)
     return (0, 999)  # brak ograniczenia
@@ -43,17 +43,17 @@ def find_best_matches(user_answers_str, top_n=10):
     cur = conn.cursor()
 
     user_tags = [t.strip().lower() for t in user_answers_str.split(";") if t.strip()]
+    if len(user_tags) != 8:
+        raise ValueError(
+            "User input must contain exactly 8 semicolon-separated tags in the correct order: intensity;props;focus_area;goal;duration_minutes;level;type;time_of_day")
 
-    cur.execute("SELECT id, name, category FROM tag")
-    tag_data = cur.fetchall()
-    tag_lookup = {name.lower(): {"id": tag_id, "category": category} for tag_id, name, category in tag_data}
+    user_intensity, user_props, user_focus, user_goal, duration_tag, user_level, user_type, user_time = user_tags
 
-    user_tag_info = [tag_lookup[t] for t in user_tags if t in tag_lookup]
+    all_focus = user_focus == "all"
+    all_goal = user_goal == "all"
+    all_type = user_type == "all"
 
-    user_level = next((t for t in user_tags if t in LEVEL_WEIGHTED.keys()), None)
-    user_props = next((t for t in user_tags if t in ["none", "blocks", "belt"]), None)
-    user_intensity = next((t for t in user_tags if t in INTENSITY_HIERARCHY.keys()), None)
-    min_duration, max_duration = get_duration_range(user_tags)
+    min_duration, max_duration = get_duration_range([duration_tag])
 
     cur.execute("""
         SELECT p.id, p.title, p.youtube_url, p.duration_minutes, t.name, t.category
@@ -86,7 +86,9 @@ def find_best_matches(user_answers_str, top_n=10):
             tag_name = tag["name"]
             category = tag["category"]
 
-            if category == "time_of_day" and tag_name not in user_tags:
+            if category == "time_of_day":
+                if tag_name == user_time:
+                    score += CATEGORY_WEIGHTS["time_of_day"]
                 continue
 
             # level
@@ -97,7 +99,6 @@ def find_best_matches(user_answers_str, top_n=10):
                         valid = False
                         break
                     else:
-                        # dodaje wagę zależną od poziomu
                         score += CATEGORY_WEIGHTS["level"] * allowed_levels[tag_name]
 
             # props
@@ -114,13 +115,17 @@ def find_best_matches(user_answers_str, top_n=10):
                     if tag_name not in ["belt", "none"]:
                         valid = False
                         break
+                elif user_props == "all":
+                    pass
 
                 if tag_name == user_props:
                     score += CATEGORY_WEIGHTS["props"]
 
             # intensity
             elif category == "intensity":
-                if user_intensity:
+                if user_intensity == "all":
+                    continue
+                elif user_intensity:
                     allowed_intensity = INTENSITY_HIERARCHY[user_intensity]
                     if tag_name not in allowed_intensity:
                         valid = False
@@ -128,9 +133,15 @@ def find_best_matches(user_answers_str, top_n=10):
                     if tag_name == user_intensity:
                         score += CATEGORY_WEIGHTS["intensity"]
 
-            # inne kategorie
-            elif tag_name in user_tags:
-                score += CATEGORY_WEIGHTS.get(category, 1.0)
+            elif category == "focus_area":
+                if all_focus or tag_name in user_tags:
+                    score += CATEGORY_WEIGHTS["focus_area"]
+            elif category == "goal":
+                if all_goal or tag_name in user_tags:
+                    score += CATEGORY_WEIGHTS["goal"]
+            elif category == "type":
+                if all_type or tag_name in user_tags:
+                    score += CATEGORY_WEIGHTS["type"]
 
         if valid:
             scored_practices.append((p, score))
@@ -152,12 +163,12 @@ def find_best_matches(user_answers_str, top_n=10):
 if __name__ == "__main__":
     # print do testowania outputu z poziomu konsoli
 
-    #user_input = "high;blocks;back;strength;2045;intermediate;vinyasa;evening"
-    #results = find_best_matches(user_input)
-    #print("TOP DOPASOWANIA:\n")
-    #for i, r in enumerate(results, 1):
-        #print(f"{i}. {r['title']} ({r['duration_minutes']} min) - wynik: {r['score']}")
-        #print(f"   {r['youtube_url']}\n")
+    """user_input = "low;blocks;back;relaxation;20minus;intermediate;yin;evening"
+    results = find_best_matches(user_input)
+    print("TOP DOPASOWANIA:\n")
+    for i, r in enumerate(results, 1):
+        print(f"{i}. {r['title']} ({r['duration_minutes']} min) - wynik: {r['score']}")
+        print(f"   {r['youtube_url']}\n")"""
 
     # zwracanie wyniku (do użycia w aplikacji)
     try:
