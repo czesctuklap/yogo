@@ -29,7 +29,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Obsługa kliknięć przycisków
         binding.buttonNewworkout.setOnClickListener {
             findNavController().navigate(R.id.nav_newworkout)
         }

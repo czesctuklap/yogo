@@ -20,4 +20,9 @@ object PrepopulatedDb {
         val path = context.getDatabasePath(DB_NAME).path
         return SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
     }
+
+    fun openWritable(context: Context): SQLiteDatabase {
+        val path = context.getDatabasePath(DB_NAME).path
+        return SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE)
+    }
 }

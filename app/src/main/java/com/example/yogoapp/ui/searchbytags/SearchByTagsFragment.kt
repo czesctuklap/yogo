@@ -5,9 +5,9 @@ import android.view.*
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.yogoapp.databinding.FragmentSearchbytagsBinding
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.example.yogoapp.ui.common.initAndLogOnPlay
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class SearchByTagsFragment : Fragment() {
@@ -48,6 +48,7 @@ class SearchByTagsFragment : Fragment() {
             (container.getChildAt(i) as? YouTubePlayerView)?.release()
         }
         container.removeAllViews()
+
         ids.forEach { videoId ->
             val playerView = YouTubePlayerView(requireContext()).apply {
                 enableAutomaticInitialization = false
@@ -60,12 +61,16 @@ class SearchByTagsFragment : Fragment() {
                 }
             }
 
-            viewLifecycleOwner.lifecycle.addObserver(playerView)
-            playerView.initialize(object : AbstractYouTubePlayerListener() {
-                override fun onReady(player: YouTubePlayer) {
-                    player.cueVideo(videoId, 0f)
-                }
-            })
+            playerView.initAndLogOnPlay(
+                lifecycleOwner = viewLifecycleOwner,
+                initialYoutubeId = videoId,
+                loggerScope = viewLifecycleOwner.lifecycleScope,
+                appContextProvider = { requireContext().applicationContext },
+                options = null,
+                cueInsteadOfLoad = true,
+                onReady = null
+            )
+
             container.addView(playerView)
         }
     }
@@ -77,5 +82,4 @@ class SearchByTagsFragment : Fragment() {
 
     private fun dp(value: Int): Int =
         (value * resources.displayMetrics.density).toInt()
-
 }

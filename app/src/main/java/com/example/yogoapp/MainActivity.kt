@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = Color.BLACK
         window.navigationBarColor = Color.BLACK
 
-// Wymuś ciemne ikony off (czyli jasne ikony, na czarnym tle)
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 )
@@ -56,8 +55,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView.setupWithNavController(navController)
 
-
-        // FAB otwiera drawer
         binding.appBarMain.fab.setOnClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)

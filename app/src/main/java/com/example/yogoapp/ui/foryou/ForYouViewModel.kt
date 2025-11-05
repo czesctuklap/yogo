@@ -20,8 +20,8 @@ class ForYouViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     /**
-     * Jeśli historia jest pusta -> wybierz losowy filmik z practice
-     * Jeśli historia NIE jest pusta -> na razie nic
+     * Jeśli historia jest pusta -> wybierz losowy filmik z practice!!!!!!!!!!!!
+     * Jeśli historia nie jest pusta -> jeszcze nic!!!!!!!!!
      */
     fun loadRecommendation() {
         viewModelScope.launch {

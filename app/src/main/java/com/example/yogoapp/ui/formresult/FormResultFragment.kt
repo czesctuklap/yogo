@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.yogoapp.databinding.FragmentFormresultBinding
+import com.example.yogoapp.ui.common.initAndLogOnPlay
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 
 class FormResultFragment : Fragment() {
@@ -51,19 +52,20 @@ class FormResultFragment : Fragment() {
     }
 
     private fun initPlayerAndLoad(videoId: String) {
-        binding.youtubePlayerViewFR.enableAutomaticInitialization = false
-
         val options = IFramePlayerOptions.Builder(requireContext())
             .controls(1)
             .autoplay(0)
             .build()
 
-        binding.youtubePlayerViewFR.initialize(object : AbstractYouTubePlayerListener() {
-            override fun onReady(player: YouTubePlayer) {
-                youTubePlayerRef = player
-                player.cueVideo(videoId, 0f)
-            }
-        }, options)
+        binding.youtubePlayerViewFR.initAndLogOnPlay(
+            lifecycleOwner = viewLifecycleOwner,
+            initialYoutubeId = videoId,
+            loggerScope = viewLifecycleOwner.lifecycleScope,
+            appContextProvider = { requireContext().applicationContext },
+            options = options,
+            cueInsteadOfLoad = true,
+            onReady = { player -> youTubePlayerRef = player }
+        )
 
         playerInitialized = true
     }

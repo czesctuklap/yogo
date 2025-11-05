@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.yogoapp.databinding.FragmentForyouBinding
+import com.example.yogoapp.ui.common.initAndLogOnPlay
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 
 class ForYouFragment : Fragment() {
@@ -20,6 +21,7 @@ class ForYouFragment : Fragment() {
 
     private var playerInitialized = false
     private var youTubePlayerRef: YouTubePlayer? = null
+    private var currentVideoId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,34 +43,39 @@ class ForYouFragment : Fragment() {
 
         viewModel.videoId.observe(viewLifecycleOwner) { id ->
             if (id.isNullOrBlank()) return@observe
+            currentVideoId = id
 
             if (!playerInitialized) {
                 initPlayerAndLoad(id)
             } else {
-                youTubePlayerRef?.loadVideo(id, 0f)
+                youTubePlayerRef?.loadVideo(id, 0f) // PLAYING => helper zaloguje nowe ID
             }
         }
 
         binding.buttonNext.setOnClickListener { viewModel.loadRecommendation() }
-
     }
 
     private fun initPlayerAndLoad(videoId: String) {
-        binding.youtubePlayerView.enableAutomaticInitialization = false
+        currentVideoId = videoId
 
         val options = IFramePlayerOptions.Builder(requireContext())
             .controls(1)
             .autoplay(0)
             .build()
 
-        binding.youtubePlayerView.initialize(object : AbstractYouTubePlayerListener() {
-            override fun onReady(player: YouTubePlayer) {
+        binding.youtubePlayerView.initAndLogOnPlay(
+            lifecycleOwner = viewLifecycleOwner,
+            initialYoutubeId = videoId,
+            loggerScope = viewLifecycleOwner.lifecycleScope,
+            appContextProvider = { requireContext().applicationContext },
+            options = options,
+            cueInsteadOfLoad = true,
+            onReady = { player ->
                 youTubePlayerRef = player
                 player.mute()
-                player.cueVideo(videoId, 0f)
-            }
-        }, options)
-
+            },
+            currentIdProvider = { currentVideoId }
+        )
         playerInitialized = true
     }
 
