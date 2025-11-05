@@ -192,10 +192,10 @@ def find_best_matches(user_answers_str, top_n=10):
     for (p, score_bonus), sim in zip(P, sims):
         total_score = float(sim) + (score_bonus / 100.0)  # lekki bonus do similarity
         scored_practices.append({
-            "title": p["title"],
+            #"title": p["title"],
             "youtube_url": p["youtube_url"],
-            "duration_minutes": p["duration_minutes"],
-            "score": round(total_score, 4)
+            #"duration_minutes": p["duration_minutes"],
+            #"score": round(total_score, 4)
         })
 
     scored_practices.sort(key=lambda x: x["score"], reverse=True)
