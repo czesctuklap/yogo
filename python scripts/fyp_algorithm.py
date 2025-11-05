@@ -1,40 +1,38 @@
 import sqlite3
 import json
 import sys
-#import random
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 from recommend_practice_based_on_answers import CATEGORY_WEIGHTS
 
 DB_FILE = "yogo_database"
 
 
-def get_practice_tags(cur, practice_id):
-    """Zwraca {kategoria: tag} dla danej praktyki."""
-    cur.execute("""
-        SELECT t.category, t.name
-        FROM tag t
-        JOIN practice_tag pt ON t.id = pt.tag_id
-        WHERE pt.practice_id = ?
-    """, (practice_id,))
-    return {category: name.lower() for category, name in cur.fetchall()}
-
-
 def get_all_practices(cur):
-    """Zwraca słownik {id: {"youtube_url": ..., "tags": {...}}}."""
     cur.execute("""
-        SELECT p.id, p.youtube_url, t.category, t.name
+        SELECT p.id, p.youtube_url, p.title, p.duration_minutes, t.category, t.name
         FROM practice p
         JOIN practice_tag pt ON p.id = pt.practice_id
         JOIN tag t ON t.id = pt.tag_id
     """)
     practices = {}
-    for pid, url, category, tag_name in cur.fetchall():
+    tags_all = set()
+    for pid, url, title, duration, category, tag_name in cur.fetchall():
         if pid not in practices:
-            practices[pid] = {"id": pid, "youtube_url": url, "tags": {}}
-        practices[pid]["tags"][category] = tag_name.lower()
-    return practices
+            practices[pid] = {
+                "id": pid,
+                "youtube_url": url,
+                "title": title,
+                "duration_minutes": duration,
+                "tags": {}
+            }
+        tag_name = tag_name.lower()
+        practices[pid]["tags"][category] = tag_name
+        tags_all.add((category, tag_name))
+    return practices, tags_all
 
 
-def recommend_for_you(time_of_day):
+def recommend_for_you(time_of_day, top_n=10):
     conn = sqlite3.connect(DB_FILE)
     cur = conn.cursor()
 
@@ -43,46 +41,79 @@ def recommend_for_you(time_of_day):
 
     if not history_ids:
         cur.execute("""
-            SELECT DISTINCT p.youtube_url
+            SELECT DISTINCT p.title, p.youtube_url, p.duration_minutes
             FROM practice p
             JOIN practice_tag pt ON p.id = pt.practice_id
             JOIN tag t ON t.id = pt.tag_id
             WHERE t.category = 'time_of_day' AND t.name = ?
-            ORDER BY RANDOM()
-            LIMIT 10
-        """, (time_of_day,))
-        urls = [row[0] for row in cur.fetchall()]
+            ORDER BY RANDOM() LIMIT ?
+        """, (time_of_day, top_n))
+        urls = [
+            {
+                #"title": row[0],
+                "youtube_url": row[1],
+                #"duration_minutes": row[2],
+                #"score": 0.0
+            }
+            for row in cur.fetchall()
+        ]
         conn.close()
         return urls
 
-    history_tags = []
+    practices, tags_all = get_all_practices(cur)
+    conn.close()
+
+    category_tags = {}
+    for category, tag_name in tags_all:
+        category_tags.setdefault(category, set()).add(tag_name)
+
+    def encode_tags(tag_dict):
+        vector = []
+        for category, tag_set in category_tags.items():
+            base_weight = CATEGORY_WEIGHTS.get(category, 1.0)
+            for tag in sorted(tag_set):
+                value = 1.0 if tag_dict.get(category) == tag else 0.0
+                vector.append(value * base_weight)
+        return np.array(vector, dtype=float)
+
+    user_vectors = []
     for pid in history_ids:
-        history_tags.append(get_practice_tags(cur, pid))
+        if pid in practices:
+            user_vectors.append(encode_tags(practices[pid]["tags"]))
 
-    dominant_tags = {}
-    for category in CATEGORY_WEIGHTS.keys():
-        tags_in_cat = [tags[category] for tags in history_tags if category in tags]
-        if tags_in_cat:
-            dominant_tag = max(set(tags_in_cat), key=tags_in_cat.count)
-            dominant_tags[category] = dominant_tag
+    if not user_vectors:
+        return []
 
-    practices = get_all_practices(cur)
+    user_profile = np.mean(user_vectors, axis=0)
 
-    scored = []
+    X = []
+    P = []
     for p in practices.values():
         if p["id"] in history_ids:
             continue
+        X.append(encode_tags(p["tags"]))
+        P.append(p)
 
-        score = 0
-        for category, tag_name in p["tags"].items():
-            if category in dominant_tags and tag_name == dominant_tags[category]:
-                score += CATEGORY_WEIGHTS.get(category, 1.0)
-        scored.append((p, score))
+    if not X:
+        return []
 
-    scored.sort(key=lambda x: x[1], reverse=True)
-    conn.close()
+    X = np.array(X)
 
-    return [p["youtube_url"] for p, score in scored[:10]]
+    sims = cosine_similarity([user_profile], X)[0]
+
+    scored = [
+        {
+            #"title": p["title"],
+            "youtube_url": p["youtube_url"],
+            #"duration_minutes": p["duration_minutes"],
+            #"score": round(float(sim), 4)
+        }
+        for p, sim in zip(P, sims)
+    ]
+
+    scored.sort(key=lambda x: x["score"], reverse=True)
+
+    return scored[:top_n]
 
 
 if __name__ == "__main__":
@@ -93,7 +124,7 @@ if __name__ == "__main__":
             print(json.dumps({"error": "Missing argument: time_of_day"}, ensure_ascii=False))
             sys.exit(1)
 
-        results = recommend_for_you(time_of_day)
+        results = recommend_for_you("morning")
         print(json.dumps(results, ensure_ascii=False))
 
     except Exception as e:
