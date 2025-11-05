@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from recommend_practice_based_on_answers import CATEGORY_WEIGHTS
 
-DB_FILE = "yogo_database"
+DB_FILE = "yogo_database_git"
 
 
 def get_all_practices(cur):
