@@ -48,11 +48,11 @@ class ForYouFragment : Fragment() {
             if (!playerInitialized) {
                 initPlayerAndLoad(id)
             } else {
-                youTubePlayerRef?.loadVideo(id, 0f) // PLAYING => helper zaloguje nowe ID
+                youTubePlayerRef?.cueVideo(id, 0f)
             }
         }
 
-        binding.buttonNext.setOnClickListener { viewModel.loadRecommendation() }
+        binding.buttonNext.setOnClickListener { viewModel.nextVideo() }
     }
 
     private fun initPlayerAndLoad(videoId: String) {
@@ -60,7 +60,7 @@ class ForYouFragment : Fragment() {
 
         val options = IFramePlayerOptions.Builder(requireContext())
             .controls(1)
-            .autoplay(0)
+            .autoplay(0) 
             .build()
 
         binding.youtubePlayerView.initAndLogOnPlay(
