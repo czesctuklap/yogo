@@ -21,6 +21,7 @@ class FormResultFragment : Fragment() {
 
     private var playerInitialized = false
     private var youTubePlayerRef: YouTubePlayer? = null
+    private var currentVideoId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,13 +46,20 @@ class FormResultFragment : Fragment() {
 
         viewModel.videoId.observe(viewLifecycleOwner) { id ->
             if (id.isNullOrBlank()) return@observe
-            if (!playerInitialized) initPlayerAndLoad(id) else youTubePlayerRef?.cueVideo(id, 0f)
+            currentVideoId = id
+            if (!playerInitialized) {
+                initPlayerAndLoad(id)
+            } else {
+                youTubePlayerRef?.cueVideo(id, 0f)
+            }
         }
 
         binding.buttonNextFr.setOnClickListener { viewModel.next() }
     }
 
     private fun initPlayerAndLoad(videoId: String) {
+        currentVideoId = videoId
+
         val options = IFramePlayerOptions.Builder(requireContext())
             .controls(1)
             .autoplay(0)
@@ -64,7 +72,8 @@ class FormResultFragment : Fragment() {
             appContextProvider = { requireContext().applicationContext },
             options = options,
             cueInsteadOfLoad = true,
-            onReady = { player -> youTubePlayerRef = player }
+            onReady = { player -> youTubePlayerRef = player },
+            currentIdProvider = { currentVideoId }
         )
 
         playerInitialized = true

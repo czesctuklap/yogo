@@ -60,7 +60,7 @@ class ForYouFragment : Fragment() {
 
         val options = IFramePlayerOptions.Builder(requireContext())
             .controls(1)
-            .autoplay(0) 
+            .autoplay(0)
             .build()
 
         binding.youtubePlayerView.initAndLogOnPlay(
