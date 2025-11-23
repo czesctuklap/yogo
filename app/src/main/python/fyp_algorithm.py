@@ -2,18 +2,14 @@ import sqlite3
 
 DB_FILE = "yogo_database_git"
 
-def set_db_path(path):
-    global DB_FILE
-    DB_FILE = path
-
 CATEGORY_WEIGHTS = {
-    "time_of_day": 2.5,
-    "intensity": 5.0,
-    "level": 5.0,
-    "focus_area": 10.0,
-    "type": 10.0,
-    "goal": 10.0,
-    "props": 5.0
+    "time_of_day": 0.25,
+    "intensity": 0.5,
+    "level": 0.5,
+    "focus_area": 1.0,
+    "type": 1.0,
+    "goal": 1.0,
+    "props": 0.5
 }
 
 
