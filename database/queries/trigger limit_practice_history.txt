@@ -1,0 +1,6 @@
+delete from history
+    where id not in (
+        select id from history
+        order by practiced_at desc
+        limit 50
+    );

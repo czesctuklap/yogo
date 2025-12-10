@@ -1,0 +1,9 @@
+CREATE TABLE history (
+    id           INTEGER   PRIMARY KEY AUTOINCREMENT,
+    practice     INTEGER   NOT NULL,
+    practiced_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (
+        practice
+    )
+    REFERENCES practice (id) 
+);
